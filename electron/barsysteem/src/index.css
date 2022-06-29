@@ -1,0 +1,47 @@
+:root{
+  --background: #181818;
+  --card-background: #202020;
+  --input-background: #000000;
+  --default-font: 'Poppins', sans-serif;
+  --btn-color: #4a0000;
+  --btn-color-hover: #330303;
+}
+
+body {
+  background-color: var(--background);
+  font-family: var(--default-font);
+  color: white;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+}
+
+.usersDiv{
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 30%;
+}
+
+.userBtn{
+  border: none;
+  border-radius: 6px;
+  height: 50px;
+  width: 130px;
+  background-color: var(--btn-color);
+  font-family: var(--default-font);
+  font-size: 20px;
+  color: white;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+button:hover{
+  background-color: var(--btn-color-hover);
+}
+
+button:active{
+  transform: scale(0.95);
+}
