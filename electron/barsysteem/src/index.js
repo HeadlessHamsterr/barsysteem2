@@ -11,7 +11,7 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -19,10 +19,16 @@ const createWindow = () => {
     },
     autoHideMenuBar: true,
     frame:true,
+    show: false
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show()
+    mainWindow.maximize()
+  })
 };
 
 // This method will be called when Electron has finished

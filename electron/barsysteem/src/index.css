@@ -38,10 +38,32 @@ body {
   margin-right: 10px;
 }
 
+.backBtn{
+  border: none;
+  border-radius: 6px;
+  height: 50px;
+  width: 130px;
+  background-color: var(--btn-color);
+  font-family: var(--default-font);
+  font-size: 20px;
+  color: white;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  position: absolute;
+  left: 0.4%;
+}
+
 button:hover{
   background-color: var(--btn-color-hover);
 }
 
 button:active{
   transform: scale(0.95);
+}
+
+.userMenuTable{
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  text-align: center;
 }

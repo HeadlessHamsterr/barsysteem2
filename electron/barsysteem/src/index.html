@@ -17,57 +17,33 @@
   </head>
   <body>
     <div class="container">
-      <div class="usersDiv">
-        <table>
+      <div class="usersDiv" id="usersDiv">
+        <table id="usersTable" class="usersTable">
+        </table>
+      </div>
+      <div class="userMenuDiv" id="usersMenuDiv">
+        <button onclick="returnToHome()" class="backBtn">Terug</button>
+        <table class="userMenuTable">
           <tr>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
+            <td><span id="userName"></span></td>
+          </tr>
+          <tr>
+            <td><span id="spaces"></span></td>
           </tr>
           <tr>
             <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
-            </td>
-            <td>
-              <button class="userBtn">Joost</button>
+            <table>
+              <tr>
+                <td><button class="userBtn" onclick="orderDrink(0)">Fris</button></td>
+                <td><button class="userBtn">Barkaarten</button></td>
+              </tr>
+              <tr>
+                <td><button class="userBtn" onclick="orderDrink(1)">Pils</button></td>
+              </tr>
+              <tr>
+                <td><button class="userBtn"onclick="orderDrink(2)">Speciaalbier</button></td>
+              </tr>
+            </table>
             </td>
           </tr>
         </table>
