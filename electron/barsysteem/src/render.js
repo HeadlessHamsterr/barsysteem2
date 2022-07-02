@@ -39,8 +39,12 @@ let _fantaID = 4
 let _cassID = 5
 let _othID = 6
 let _radlID = 7
+let _updateCheckInterval = 3600000
+let _screenTimeout = 120000
 var users = []
 var activeUser;
+
+var screenTimeout = setTimeout(turnOffScreen, _screenTimeout)
 
 let circleProgress = new CircleProgress('.progress', {
     value: 0,
@@ -53,7 +57,7 @@ let circleProgress = new CircleProgress('.progress', {
 
 let updateTimer = setInterval(function checkUpdate(){
     ipcRenderer.send("checkUpdate")
-}, 5000);
+}, _updateCheckInterval);
 
 ipcRenderer.on("updateAvailable", (event,arg) => {
     clearInterval(updateTimer)
@@ -506,6 +510,18 @@ function update(){
         }
         console.log(stdout)
    })
-   ipcRenderer.send("klaarErmee")
-   //exec('xdotool key ctrl+alt+BackSpace')
+}
+
+function registerClick(){
+    turnOnScreen()
+    clearTimeout(screenTimeout)
+    screenTimeout = setTimeout(turnOffScreen, _screenTimeout)
+}
+
+function turnOffScreen(){
+    console.log("Screen off")
+}
+
+function  turnOnScreen(){
+    console.log("Screen on")
 }
