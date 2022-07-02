@@ -13,7 +13,13 @@
     "build": "electron-builder --linux"
   },
   "build": {
-    "appId": "Barsysteem"
+    "appId": "Barsysteem",
+    "linux": {
+      "target": {
+        "target": "appimage",
+        "arch": ["armv7l"]
+      }
+    }
   },
   "keywords": [],
   "author": {
