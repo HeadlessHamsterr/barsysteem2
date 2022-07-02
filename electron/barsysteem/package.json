@@ -1,7 +1,7 @@
 {
   "name": "barsysteem",
   "productName": "barsysteem",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "My Electron application description",
   "main": "src/index.js",
   "scripts": {
@@ -54,7 +54,10 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-virtual-keyboard": "^1.0.7",
     "jquery": "^3.6.0",
-    "mariadb": "^3.0.0"
+    "js-circle-progress": "^0.2.4",
+    "kbm-robot": "^0.0.4",
+    "mariadb": "^3.0.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.64",
