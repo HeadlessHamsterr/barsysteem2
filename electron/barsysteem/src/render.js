@@ -80,6 +80,9 @@ let updateTimer = setInterval(function checkUpdate(){
             }
         }
     }
+
+    request.open("GET", "https://api.github.com/repos/HeadlessHamsterr/barsysteem2/releases/latest")
+    request.send()
 }, 3600000);
 
 $(document.getElementById('usersMenuDiv')).hide()
