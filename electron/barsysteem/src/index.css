@@ -8,6 +8,10 @@
   --btn-color-hover: #330303;
 }
 
+a:hover{
+  cursor: pointer;
+}
+
 body {
   background-color: var(--background);
   font-family: var(--default-font);
@@ -150,6 +154,12 @@ button:active{
   height: 100%;
   width: 400px;
   background-color: var(--background);
+}
+
+.updateBtn{
+  position: absolute;
+  left: 0px;
+  top: 10px;
 }
 
 .menuBtn{

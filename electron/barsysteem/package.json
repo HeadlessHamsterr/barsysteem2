@@ -10,16 +10,11 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "build": "electron-builder --linux"
+    "build-rpi": "electron-builder --linux appimage --armv7l",
+    "build": "electron-builder --linux appimage"
   },
   "build": {
-    "appId": "Barsysteem",
-    "linux": {
-      "target": {
-        "target": "appimage",
-        "arch": ["armv7l"]
-      }
-    }
+    "appId": "Barsysteem"
   },
   "keywords": [],
   "author": {
@@ -55,6 +50,7 @@
     }
   },
   "dependencies": {
+    "child_process": "^1.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-virtual-keyboard": "^1.0.7",
     "jquery": "^3.6.0",

@@ -1,5 +1,9 @@
+let { ipcRenderer } = require('electron')
+let { spawn } = require('child_process')
 let mariadb = require('mariadb')
-var jQuery = $ = require('jquery');
+let jQuery = $ = require('jquery');
+let fs = require('fs')
+
 require('electron-virtual-keyboard/client')(window, jQuery)
 
 var keyboard = $('.addUserName').keyboard();
@@ -34,6 +38,50 @@ let _othID = 6
 let _radlID = 7
 var users = []
 var activeUser;
+
+let updateTimer = setInterval(function checkUpdate(){
+    let request = new XMLHttpRequest();
+
+    var updateAvailable = false
+    var updateUrl;
+    request.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            let response = JSON.parse(this.responseText)
+
+            //Get latest version of the app from the GitHub API
+            latestVersion = response["tag_name"].toString().replace('V', '');
+            //Convert the version string to a list for easier comparing
+            latestVersionList = latestVersion.split('.');
+
+            //Get current app version and converting to list
+            currentVersion = app.getVersion().toString();
+            currentVersionList = currentVersion.split('.')
+
+            console.log(latestVersionList);
+            console.log(currentVersionList);
+
+            //Check if a new version is available
+            if(parseInt(latestVersionList[0]) > parseInt(currentVersionList[0])){
+              updateAvailable = true;
+            }else if(parseInt(latestVersionList[1]) > parseInt(currentVersionList[1]) && parseInt(latestVersionList[0]) >= parseInt(currentVersionList[0])){
+              updateAvailable = true;
+            }else if(parseInt(latestVersionList[2]) > parseInt(currentVersionList[2]) && parseInt(latestVersionList[1]) >= parseInt(currentVersionList[1]) && parseInt(latestVersionList[0]) >= parseInt(currentVersionList[0])){
+              updateAvailable = true;
+            }
+
+            if(updateAvailable){
+                for(asset in response["assets"]){
+                    if(response["assets"][asset]["name"].includes('AppImage')){
+                        updateUrl = response["assets"][asset]["browser_download_url"]
+                        break
+                    }
+                }
+                download(updateUrl, '/home/pi/barsysteem/barsysteemNew.AppImage', (bytes, percent) => waitForDownload(percent))
+            }
+        }
+    }
+}, 3600000);
+
 $(document.getElementById('usersMenuDiv')).hide()
 
 //Query database for the users
@@ -61,6 +109,72 @@ pool.getConnection().then(conn => {
         }
     })
 })
+
+async function download(
+    sourceUrl,
+    targetFile,
+    progressCallback,
+    length
+){
+    const request = new Request(sourceUrl, {
+        headers: new Headers({"Content-Type": "application/octet-stream"}),
+    })
+
+    const response = await fetch(request)
+
+    if(!response.ok){
+        throw Error(
+            `Unable to download update: ${response.status} ${response.statusText}`
+        )
+    }else{
+        const body = response.body
+        if(boyd == null){
+            throw Error(
+                "No response body"
+            )
+        }
+
+        const finalLength = length || parseInt(response.headers.get("Content-length" || "0"), 10)
+        const reader = body.getReader()
+        const writer = fs.createWriteStream(targetFile)
+
+        await streamWithProgress(finalLength, reader, writer, progressCallback)
+        writer.end()
+    }
+}
+
+async function streamWithProgress(length, reader, writer, progressCallback){
+    let bytesDone = 0
+
+    while(true){
+        const result = await reader.read()
+        if(result.done){
+            if(progressCallback != null){
+                progressCallback(length, 100)
+            }
+            return
+        }
+
+        const chunk = result.value;
+        if(chunk == null){
+            throw Error("Empty chunk received during download")
+        }else{
+            writer.write(Buffer.from(chunk))
+            if(progressCallback != null){
+                const percent = length === 0 ? null : Math.floor((bytesDone /length) * 100)
+                progressCallback(bytesDone, percent)
+            }
+        }
+    }
+}
+
+function waitForDownload(percent){
+    if(percent == 100){
+        $(document.getElementById('update')).show()
+    }else{
+        console.log(`Downloading update ${percent}`)
+    }
+}
 
 async function updateUsers(){
     users = []
@@ -399,4 +513,9 @@ function resetUserManagement(){
     $(document.getElementById('remUserName')).css('border-color', 'var(--input-border)');
     document.getElementById('remUserErrorSpan').innerHTML = "";
 
+}
+
+function update(){
+    spawn('./update.sh')
+    ipcRenderer.send("klaarErmee")
 }

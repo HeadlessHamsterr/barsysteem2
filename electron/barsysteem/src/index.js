@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const VirtualKeyboard = require('electron-virtual-keyboard');
 
@@ -7,6 +7,10 @@ const VirtualKeyboard = require('electron-virtual-keyboard');
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+ipcMain.on("klaarErmee", () =>{
+  app.quit()
+})
 
 let vkb;
 
@@ -19,11 +23,13 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false
+      
     },
     autoHideMenuBar: true,
     frame:true,
     show: false,
-    fullscreen: false
+    fullscreen: false,
+    resizable: false
   });
 
   // and load the index.html of the app.

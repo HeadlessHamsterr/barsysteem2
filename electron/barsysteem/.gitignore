@@ -89,3 +89,7 @@ typings/
 out/
 
 dist/
+
+update.sh
+barsysteem.AppImage
+barsysteemNew.AppImage
