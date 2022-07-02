@@ -15,9 +15,9 @@ var numpad = $('.addUserSpaces').keyboard({
 })
 
 let pool = mariadb.createPool({
-    host: 'localhost',
+    host: '192.168.1.71',
     user: 'root',
-    password: 'Fr1t5-PC',
+    password: 'H00gr@ven',
     database: 'barsysteem'
 })
 
@@ -389,4 +389,14 @@ function returnToActiveUser(){
             break
         }
     }
+}
+
+function resetUserManagement(){
+    $(document.getElementById('addUserName')).css('border-color', 'var(--input-border)');
+    $(document.getElementById('addUserSpaces')).css('border-color', 'var(--input-border');
+    document.getElementById('addUserErrorSpan').innerHTML = "";
+    
+    $(document.getElementById('remUserName')).css('border-color', 'var(--input-border)');
+    document.getElementById('remUserErrorSpan').innerHTML = "";
+
 }

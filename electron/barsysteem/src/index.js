@@ -13,8 +13,8 @@ let vkb;
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 800,
+    width: 1024,
+    height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -23,7 +23,7 @@ const createWindow = () => {
     autoHideMenuBar: true,
     frame:true,
     show: false,
-    fullscreen: true
+    fullscreen: false
   });
 
   // and load the index.html of the app.
