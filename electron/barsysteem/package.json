@@ -9,7 +9,11 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "build": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "Barsysteem"
   },
   "keywords": [],
   "author": {
@@ -56,6 +60,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.64",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.64",
-    "electron": "19.0.6"
+    "electron": "19.0.6",
+    "electron-builder": "^23.1.0"
   }
 }
