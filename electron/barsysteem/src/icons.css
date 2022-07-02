@@ -1,0 +1,27 @@
+.material-icons.md-light{ 
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .material-icons-outlined.md-light{
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .material-icons.md-30{
+    font-size: 30px;
+  }
+  
+  .material-icons.md-36{
+    font-size: 36px;
+  }
+  
+  .material-icons-outlined.md-36{
+    font-size: 36px;
+  }
+  
+  .material-icons.md-48{
+    font-size: 48px;
+  }
+  
+  .material-icons-outlined.md-48{
+    font-size: 48px;
+  }

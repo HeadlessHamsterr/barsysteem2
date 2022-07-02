@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Barsysteem</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="icons.css">
+    <link rel="stylesheet" href="virtual-keyboard.css" type="text/css">
     <script defer src="render.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,40 +16,117 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Two+Tone" rel="stylesheet">
     <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+    <script>let $ = require('jquery');</script>
   </head>
-  <body>
+  <body style="cursor: none;">
     <div class="container">
       <div class="usersDiv" id="usersDiv">
-        <table id="usersTable" class="usersTable">
+        <table>
+          <tr>
+            <td>
+              <div class="controlBtnDiv" id="controlBtnDiv">
+                <a class="material-icons-outlined md-48 menuBtn" id="menu" onclick="openMainNav()">admin_panel_settings</a>
+              </div>
+            </td>
+            <td>
+              <table id="usersTable" class="usersTable">
+              </table>
+            </td>
+          </tr>
         </table>
       </div>
-      <div class="userMenuDiv" id="usersMenuDiv">
-        <button onclick="returnToHome()" class="backBtn">Terug</button>
+      <div class="userMenuDiv" id="usersMenuDiv" style="display: none;">
+        <!--<button onclick="returnToHome()" class="backBtn">Terug</button>-->
+        <a class="material-icons backBtn" onclick="returnToHome()">arrow_back</a>
         <table class="userMenuTable">
           <tr>
-            <td><span id="userName"></span></td>
+            <td><span id="userName" class="username"></span></td>
           </tr>
           <tr>
-            <td><span id="spaces"></span></td>
+            <td><span id="spaces" class="spaces"></span></td>
           </tr>
           <tr>
             <td>
             <table>
               <tr>
-                <td><button class="userBtn" onclick="orderDrink(0)">Fris</button></td>
-                <td><button class="userBtn">Barkaarten</button></td>
+                <td><button class="userMenuBtn" onclick="orderDrink(this.textContent)">Fris</button></td>
+                <td><button class="userMenuBtn" onclick="orderDrink(this.textContent)">Pils</button></td>
+                <td><button class="userMenuBtn" onclick="showCardOrder()">Barkaarten</button></td>
               </tr>
               <tr>
-                <td><button class="userBtn" onclick="orderDrink(1)">Pils</button></td>
-              </tr>
-              <tr>
-                <td><button class="userBtn"onclick="orderDrink(2)">Speciaalbier</button></td>
+                <td><button class="userMenuBtn" onclick="orderDrink(this.textContent)">Radler</button></td>
+                <td><button class="userMenuBtn"onclick="orderDrink(this.textContent)">Speciaalbier</button></td>
               </tr>
             </table>
             </td>
           </tr>
         </table>
       </div>
+
+      <div class="addCardsDiv" id="addDrinkcardsDiv" style="display: none;">
+        <!--<button onclick="returnToHome()" class="backBtn">Terug</button>-->
+        <a class="material-icons backBtn" onclick="returnToActiveUser()">arrow_back</a>
+        <table class="addCardsTable">
+          <tr>
+            <td><h1>Barkaarten kopen</h1></td>
+          </tr>
+          <tr>
+            <td><span class="numCardsToBuy" id="numCardsToBuy" style="font-size: 48px;">1</span></td>
+          </tr>
+          <tr>
+            <td>
+            <table class="addCardsSubTable">
+              <tr>
+                <td><a class="material-icons" onclick="modifyCards(1)" style="font-size: 70px;">remove</a></td>
+                <td><a class="material-icons" onclick="modifyCards(2)" style="font-size: 70px;">add</a></td>
+              </tr>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td><button class="userBtn" id="buyCardsBtn" onclick="buyCards()">Kopen</button></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="popupWindow" id="noSpacesPopup" style="display: none;">
+        <h1>Niet genoeg vakjes</h1>
+        <a class="material-icons md-36" onclick="closeNoCardsPopup()">close</a>
+      </div>
+
+      <div class="popupWindow" id="sodaTypePopup" style="display: none;" onclick="$(document.getElementById('sodaTypePopup')).hide()">
+        <h1>Kies een soort</h1>
+        <table>
+          <tr>
+            <td><button class="userBtn" onclick="orderDrink(this.textContent)">Cola</button></td>
+            <td><button class="userBtn" onclick="orderDrink(this.textContent)">Fanta</button></td>
+          </tr>
+          <tr>
+            <td><button class="userBtn" onclick="orderDrink(this.textContent)">Cassis</button></td>
+            <td><button class="userBtn" onclick="orderDrink(this.textContent)">Anders</button></td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="mainMenu" id="mainMenu" style="display: none;">
+        <a onclick="closeMainNav()" class="mainMenuCloseBtn material-icons md-36">close</a>
+        <div id="mainMenusDiv" class="mainMenusDiv">
+          <h1 id="addUserMenuBtn" class="mainMenuBtn" onclick="showMenu(1)">Gebruiker toevoegen <i id="addUserArrow" class="material-icons md-36" style="transform: rotate(0deg);">expand_more</i></h1>
+          <div id="addUserDiv" style="display: none;">
+            <input type="text" placeholder="Naam" class="mainMenuInput addUserName" id="addUserName"><br>
+            <input type="text" placeholder="Vakjes" class="mainMenuInput addUserSpaces" id="addUserSpaces"><br>
+            <button id="addUserBtn" class="userBtn" onclick="addUser()">Toevoegen</button><br>
+            <span id="addUserErrorSpan" style="font-size: 25px;"></span>
+          </div>
+          <h1 id="removeUserMenuBtn" class="mainMenuBtn" onclick="showMenu(2)">Gebruiker verwijderen <i id="remUserArrow" class="material-icons md-36" style="transform: rotate(0deg);">expand_more</i></h1>
+          <div id="remUserDiv" style="display: none;">
+            <input type="text" placeholder="User ID" class="mainMenuInput addUserSpaces" id="remUserName"><br>
+            <button id="addUserBtn" class="userBtn" onclick="remUser()">Verwijderen</button><br>
+            <span id="remUserErrorSpan" style="font-size: 25px;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="kb-container"></div>
     </div>
   </body>
 </html>

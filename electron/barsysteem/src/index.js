@@ -1,11 +1,14 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const VirtualKeyboard = require('electron-virtual-keyboard');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+let vkb;
 
 const createWindow = () => {
   // Create the browser window.
@@ -19,15 +22,23 @@ const createWindow = () => {
     },
     autoHideMenuBar: true,
     frame:true,
-    show: false
+    show: false,
+    fullscreen: true
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  
+  mainWindow.loadFile(path.join(__dirname, 'index.html'))
+  vkb = new VirtualKeyboard(mainWindow.webContents)
+
   mainWindow.on('ready-to-show', () => {
+
+    //Block dev-tools from being opened when the shortcut is pressed
+    /*globalShortcut.register('Control+Shift+I', () => {
+      return false;
+    });*/
+
     mainWindow.show()
-    mainWindow.maximize()
+    //mainWindow.webContents.openDevTools()
   })
 };
 
