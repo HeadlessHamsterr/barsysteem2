@@ -1,8 +1,11 @@
-let { ipcRenderer } = require('electron')
-let { spawn } = require('child_process')
+let { ipcRenderer, app } = require('electron')
+let { spawn, exec } = require('child_process')
 let mariadb = require('mariadb')
 let jQuery = $ = require('jquery');
-let fs = require('fs')
+let fs = require('fs');
+const { clear } = require('console');
+let robot = require('kbm-robot')
+let CircleProgress = require('js-circle-progress');
 
 require('electron-virtual-keyboard/client')(window, jQuery)
 
@@ -39,51 +42,25 @@ let _radlID = 7
 var users = []
 var activeUser;
 
+let circleProgress = new CircleProgress('.progress', {
+    value: 0,
+    max: 100,
+    textFormat: function(value, max){
+        return "Updating"
+    },
+
+})
+
 let updateTimer = setInterval(function checkUpdate(){
-    let request = new XMLHttpRequest();
+    ipcRenderer.send("checkUpdate")
+}, 5000);
 
-    var updateAvailable = false
-    var updateUrl;
-    request.onreadystatechange = function() {
-        if(this.readyState == 4 && this.status == 200){
-            let response = JSON.parse(this.responseText)
-
-            //Get latest version of the app from the GitHub API
-            latestVersion = response["tag_name"].toString().replace('V', '');
-            //Convert the version string to a list for easier comparing
-            latestVersionList = latestVersion.split('.');
-
-            //Get current app version and converting to list
-            currentVersion = app.getVersion().toString();
-            currentVersionList = currentVersion.split('.')
-
-            console.log(latestVersionList);
-            console.log(currentVersionList);
-
-            //Check if a new version is available
-            if(parseInt(latestVersionList[0]) > parseInt(currentVersionList[0])){
-              updateAvailable = true;
-            }else if(parseInt(latestVersionList[1]) > parseInt(currentVersionList[1]) && parseInt(latestVersionList[0]) >= parseInt(currentVersionList[0])){
-              updateAvailable = true;
-            }else if(parseInt(latestVersionList[2]) > parseInt(currentVersionList[2]) && parseInt(latestVersionList[1]) >= parseInt(currentVersionList[1]) && parseInt(latestVersionList[0]) >= parseInt(currentVersionList[0])){
-              updateAvailable = true;
-            }
-
-            if(updateAvailable){
-                for(asset in response["assets"]){
-                    if(response["assets"][asset]["name"].includes('AppImage')){
-                        updateUrl = response["assets"][asset]["browser_download_url"]
-                        break
-                    }
-                }
-                download(updateUrl, '/home/pi/barsysteem/barsysteemNew.AppImage', (bytes, percent) => waitForDownload(percent))
-            }
-        }
-    }
-
-    request.open("GET", "https://api.github.com/repos/HeadlessHamsterr/barsysteem2/releases/latest")
-    request.send()
-}, 3600000);
+ipcRenderer.on("updateAvailable", (event,arg) => {
+    clearInterval(updateTimer)
+    console.log(arg)
+    $(document.getElementById('downloadProgress')).show()
+    download(arg, '/home/admin/barsysteem/barsysteemNew.AppImage', (bytes, percent) => waitForDownload(percent))
+})
 
 $(document.getElementById('usersMenuDiv')).hide()
 
@@ -131,7 +108,7 @@ async function download(
         )
     }else{
         const body = response.body
-        if(boyd == null){
+        if(body == null){
             throw Error(
                 "No response body"
             )
@@ -164,6 +141,7 @@ async function streamWithProgress(length, reader, writer, progressCallback){
         }else{
             writer.write(Buffer.from(chunk))
             if(progressCallback != null){
+                bytesDone += chunk.byteLength
                 const percent = length === 0 ? null : Math.floor((bytesDone /length) * 100)
                 progressCallback(bytesDone, percent)
             }
@@ -172,10 +150,10 @@ async function streamWithProgress(length, reader, writer, progressCallback){
 }
 
 function waitForDownload(percent){
+    circleProgress.value = percent
     if(percent == 100){
-        $(document.getElementById('update')).show()
-    }else{
-        console.log(`Downloading update ${percent}`)
+        $(document.getElementById('downloadProgress')).hide()
+        $(document.getElementById('updateBtn')).show()
     }
 }
 
@@ -519,6 +497,15 @@ function resetUserManagement(){
 }
 
 function update(){
-    spawn('./update.sh')
-    ipcRenderer.send("klaarErmee")
+    exec('/home/admin/barsysteem/update.sh', (error, stdout, stderr) => {
+        if(error){
+            console.log(error)
+        }
+        if(stderr){
+            console.log(stderr)
+        }
+        console.log(stdout)
+   })
+   ipcRenderer.send("klaarErmee")
+   //exec('xdotool key ctrl+alt+BackSpace')
 }

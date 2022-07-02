@@ -162,6 +162,35 @@ button:active{
   top: 10px;
 }
 
+.updateProgress{
+  position: absolute;
+  left: 0px;
+  top: 10px;
+}
+
+.circle-progress{
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  width: 60px;
+  height: auto;
+}
+
+.circle-progress-circle{
+  stroke-width: 0px;
+}
+
+.circle-progress-value{
+  stroke-width: 15px;
+  stroke: #008181;
+  stroke-linecap: round;
+}
+
+.circle-progress-text{
+  font-size: 20px;
+  fill: white;
+}
+
 .menuBtn{
   position: absolute;
   right: 0px;
