@@ -46,7 +46,7 @@ keySwitch.watch(function (err, value){
 		unlocked = false
 		$(document.getElementById('menu')).hide()
 	}
-}
+})
 
 function unexportOnClose(){
 	backlight.unexport()
