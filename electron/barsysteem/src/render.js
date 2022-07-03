@@ -6,7 +6,6 @@ let fs = require('fs');
 const { clear } = require('console');
 let robot = require('kbm-robot')
 let CircleProgress = require('js-circle-progress');
-let IO = require('onoff').Gpio
 
 require('electron-virtual-keyboard/client')(window, jQuery)
 
@@ -29,31 +28,6 @@ let pool = mariadb.createPool({
     database: 'barsysteem'
 })
 
-var unlocked = false
-
-let backlight = new IO(27, 'out')
-let keySwitch = new IO(22, 'in', 'both')
-
-keySwitch.watch(function (err, value){
-	if(err){
-		console.error(`GPIO error: ${err}`)
-		return
-	}
-	if(value){
-		unlocked = true
-		$(document.getElementById('menu')).show()
-	}else{
-		unlocked = false
-		$(document.getElementById('menu')).hide()
-	}
-})
-
-function unexportOnClose(){
-	backlight.unexport()
-	keySwitch.unexport()
-}
-
-process.on('SIGINT', unexportOnClose)
 
 let frisDrinks = ["Cola", "Fanta", "Cassis", "Anders"]
 let _maxUsersInRow = 5
@@ -70,6 +44,7 @@ let _updateCheckInterval = 3600000
 let _screenTimeout = 120000
 var users = []
 var activeUser;
+var unlocked = false
 
 var screenTimeout = setTimeout(turnOffScreen, _screenTimeout)
 
@@ -91,6 +66,16 @@ ipcRenderer.on("updateAvailable", (event,arg) => {
     console.log(arg)
     $(document.getElementById('downloadProgress')).show()
     download(arg, '/home/admin/barsysteem/barsysteemNew.AppImage', (bytes, percent) => waitForDownload(percent))
+})
+
+ipcRenderer.on('keySwitch', (event, arg) =>{
+    if(arg){
+		unlocked = true
+		$(document.getElementById('menu')).show()
+	}else{
+		unlocked = false
+		$(document.getElementById('menu')).hide()
+	}
 })
 
 $(document.getElementById('usersMenuDiv')).hide()
@@ -547,10 +532,10 @@ function registerClick(){
 
 function turnOffScreen(){
     console.log("Screen off")
-    backlight.writeSync(0)
+    ipcRenderer.send('backlight', 0)
 }
 
 function  turnOnScreen(){
     console.log("Screen on")
-    backlight.writeSync(1)
+    ipcRenderer.send('backlight', 1)
 }
