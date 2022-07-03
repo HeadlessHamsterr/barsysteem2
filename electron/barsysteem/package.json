@@ -57,6 +57,7 @@
     "js-circle-progress": "^0.2.4",
     "kbm-robot": "^0.0.4",
     "mariadb": "^3.0.0",
+    "onoff": "^6.0.3",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {

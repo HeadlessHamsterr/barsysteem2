@@ -6,6 +6,7 @@ let fs = require('fs');
 const { clear } = require('console');
 let robot = require('kbm-robot')
 let CircleProgress = require('js-circle-progress');
+let IO = require('onoff').Gpio
 
 require('electron-virtual-keyboard/client')(window, jQuery)
 
@@ -27,6 +28,26 @@ let pool = mariadb.createPool({
     password: 'H00gr@ven',
     database: 'barsysteem'
 })
+
+var unlocked = false
+
+let backlight = new IO(27, 'out')
+let keySwitch = new IO(22, 'in', 'both')
+
+keySwitch.watch(function (err, value){
+	if(err){
+		console.error(`GPIO error: ${err}`)
+		return
+	}
+	unlocked = value ? true : false
+}
+
+function unexportOnClose(){
+	backlight.unexport()
+	keySwitch.unexport()
+}
+
+process.on('SIGINT', unexportOnClose)
 
 let frisDrinks = ["Cola", "Fanta", "Cassis", "Anders"]
 let _maxUsersInRow = 5
@@ -520,8 +541,10 @@ function registerClick(){
 
 function turnOffScreen(){
     console.log("Screen off")
+    backlight.writeSync(0)
 }
 
 function  turnOnScreen(){
     console.log("Screen on")
+    backlight.writeSync(1)
 }
