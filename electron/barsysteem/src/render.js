@@ -39,7 +39,13 @@ keySwitch.watch(function (err, value){
 		console.error(`GPIO error: ${err}`)
 		return
 	}
-	unlocked = value ? true : false
+	if(value){
+		unlocked = true
+		$(document.getElementById('menu')).show()
+	}else{
+		unlocked = false
+		$(document.getElementById('menu')).hide()
+	}
 }
 
 function unexportOnClose(){
