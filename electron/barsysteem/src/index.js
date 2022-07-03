@@ -31,7 +31,7 @@ const createWindow = () => {
     autoHideMenuBar: true,
     frame:true,
     show: false,
-    fullscreen: false,
+    fullscreen: true,
     resizable: false
   });
 
