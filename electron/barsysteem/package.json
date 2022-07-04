@@ -50,13 +50,17 @@
     }
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "child_process": "^1.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-virtual-keyboard": "^1.0.7",
     "jquery": "^3.6.0",
     "js-circle-progress": "^0.2.4",
     "kbm-robot": "^0.0.4",
+    "keypair": "^1.0.4",
     "mariadb": "^3.0.0",
+    "openssl-nodejs": "^1.0.5",
+    "uuid": "^8.3.2",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
