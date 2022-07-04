@@ -6,8 +6,6 @@ const fs = require('fs');
 const CircleProgress = require('js-circle-progress');
 const path = require('path')
 
-console.log(getConfig(root))
-
 require('electron-virtual-keyboard/client')(window, jQuery)
 
 var keyboard = $('.addUserName').keyboard();
