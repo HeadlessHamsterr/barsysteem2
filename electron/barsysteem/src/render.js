@@ -1,11 +1,12 @@
-let { ipcRenderer, app } = require('electron')
-let { spawn, exec } = require('child_process')
-let mariadb = require('mariadb')
-let jQuery = $ = require('jquery');
-let fs = require('fs');
-const { clear } = require('console');
-let robot = require('kbm-robot')
-let CircleProgress = require('js-circle-progress');
+const { ipcRenderer } = require('electron')
+const { exec } = require('child_process')
+const mariadb = require('mariadb')
+const jQuery = $ = require('jquery');
+const fs = require('fs');
+const CircleProgress = require('js-circle-progress');
+const path = require('path')
+
+console.log(getConfig(root))
 
 require('electron-virtual-keyboard/client')(window, jQuery)
 
@@ -21,34 +22,33 @@ var numpad = $('.addUserSpaces').keyboard({
     }
 })
 
-let pool = mariadb.createPool({
+const pool = mariadb.createPool({
     host: '192.168.1.71',
     user: 'root',
     password: 'H00gr@ven',
     database: 'barsysteem'
 })
 
+const frisDrinks = ["Cola", "Fanta", "Cassis", "Anders"]
+const _maxUsersInRow = 5
+const _spacesPerCard = 20
+const _pilsID = 1
+const _specID = 2
+const _colaID = 3
+const _fantaID = 4
+const _cassID = 5
+const _othID = 6
+const _radlID = 7
+const _updateCheckInterval = 3600000
+const _screenTimeout = 120000
 
-let frisDrinks = ["Cola", "Fanta", "Cassis", "Anders"]
-let _maxUsersInRow = 5
-let _spacesPerCard = 20
-let _amountNotFrisDrinks = 3
-let _pilsID = 1
-let _specID = 2
-let _colaID = 3
-let _fantaID = 4
-let _cassID = 5
-let _othID = 6
-let _radlID = 7
-let _updateCheckInterval = 3600000
-let _screenTimeout = 120000
 var users = []
 var activeUser;
 var unlocked = false
 
 var screenTimeout = setTimeout(turnOffScreen, _screenTimeout)
 
-let circleProgress = new CircleProgress('.progress', {
+const circleProgress = new CircleProgress('.progress', {
     value: 0,
     max: 100,
     textFormat: function(value, max){
@@ -57,7 +57,7 @@ let circleProgress = new CircleProgress('.progress', {
 
 })
 
-let updateTimer = setInterval(function checkUpdate(){
+const updateTimer = setInterval(function checkUpdate(){
     ipcRenderer.send("checkUpdate")
 }, _updateCheckInterval);
 
