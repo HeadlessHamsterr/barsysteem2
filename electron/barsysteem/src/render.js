@@ -41,7 +41,7 @@ const _updateCheckInterval = 3600000
 const _screenTimeout = 120000
 
 var users = []
-var activeUser
+var activeUser = null
 var unlocked = false
 
 var screenTimeout = setTimeout(turnOffScreen, _screenTimeout)
