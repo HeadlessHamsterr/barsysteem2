@@ -99,8 +99,10 @@
       </div>
 
       <div class="popupWindow" id="sodaTypePopup" style="display: none;" onclick="$(document.getElementById('sodaTypePopup')).hide()">
-        <h1>Kies een soort</h1>
         <table>
+          <tr>
+            <td colspan="2"><h2>Kies een soort</h2></td>
+          </tr>
           <tr>
             <td><button class="userBtn" onclick="orderDrink(this.textContent)">Cola</button></td>
             <td><button class="userBtn" onclick="orderDrink(this.textContent)">Fanta</button></td>
@@ -111,6 +113,11 @@
           </tr>
         </table>
       </div>
+
+      <div class="smallPopupWindow" id="buyCardsPopup" style="display: none;">
+        <h1>Vergrendeld</h1>
+        <a class="material-icons md-36" onclick="$(document.getElementById('buyCardsPopup')).hide()">close</a>
+      </div>
       
       <div class="mainMenu" id="mainMenu" style="display: none;">
         <a onclick="closeMainNav()" class="mainMenuCloseBtn material-icons md-36">close</a>
@@ -119,13 +126,13 @@
           <div id="addUserDiv" style="display: none;">
             <input type="text" placeholder="Naam" class="mainMenuInput addUserName" id="addUserName"><br>
             <input type="text" placeholder="Vakjes" class="mainMenuInput addUserSpaces" id="addUserSpaces"><br>
-            <button id="addUserBtn" class="userBtn" onclick="addUser()">Toevoegen</button><br>
+            <button id="addUserBtn" class="userBtn" onclick="addUser()" style="width: fit-content;">Toevoegen</button><br>
             <span id="addUserErrorSpan" style="font-size: 25px;"></span>
           </div>
           <h1 id="removeUserMenuBtn" class="mainMenuBtn" onclick="showMenu(2)">Gebruiker verwijderen <i id="remUserArrow" class="material-icons md-36" style="transform: rotate(0deg);">expand_more</i></h1>
           <div id="remUserDiv" style="display: none;">
             <input type="text" placeholder="User ID" class="mainMenuInput addUserSpaces" id="remUserName"><br>
-            <button id="addUserBtn" class="userBtn" onclick="remUser()">Verwijderen</button><br>
+            <button id="addUserBtn" class="userBtn" onclick="remUser()" style="width: fit-content;">Verwijderen</button><br>
             <span id="remUserErrorSpan" style="font-size: 25px;"></span>
           </div>
         </div>

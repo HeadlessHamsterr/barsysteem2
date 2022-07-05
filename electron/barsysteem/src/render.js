@@ -40,7 +40,8 @@ const _radlID = 7
 const _updateCheckInterval = 3600000
 const _screenTimeout = 120000
 var users = []
-var activeUser;
+var activeUser
+var unlocked = false
 
 var screenTimeout = setTimeout(turnOffScreen, _screenTimeout)
 
@@ -263,7 +264,7 @@ async function orderDrink(drinkType){
     }
     console.log(`Ordering ${drinkType} for ${activeUser.name}`)
 
-    if(cost > activeUser.spaces){
+    if(cost > activeUser.spaces && drinkType != "Fris"){
         $(document.getElementById('noSpacesPopup')).show()
     }else if(drinkType != "Fris"){
         let conn
@@ -299,8 +300,12 @@ function closeNoCardsPopup(){
 }
 
 function showCardOrder(){
-    $(document.getElementById("usersMenuDiv")).hide()
-    $(document.getElementById("addDrinkcardsDiv")).show()
+    if(unlocked){
+        $(document.getElementById("usersMenuDiv")).hide()
+        $(document.getElementById("addDrinkcardsDiv")).show()
+    }else{
+        $(document.getElementById('buyCardsPopup')).show()
+    }
 }
 
 function modifyCards(modification){
