@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, ipcRenderer } = require('electron');
 const path = require('path');
 const VirtualKeyboard = require('electron-virtual-keyboard');
 let XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest
+let IO = require('onoff').Gpio
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
@@ -18,6 +19,9 @@ ipcMain.on("klaarErmee", () =>{
 let vkb;
 var mainWindow
 
+let backlight = new IO(27, 'out')
+let keySwitch = new IO(22, 'in', 'both')
+
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -32,7 +36,7 @@ const createWindow = () => {
     autoHideMenuBar: true,
     frame:true,
     show: false,
-    fullscreen: false,
+    fullscreen: true,
     resizable: false
   });
 
@@ -47,12 +51,25 @@ const createWindow = () => {
       return false;
     });*/
 
-    mainWindow.show()
     //mainWindow.webContents.openDevTools()
     checkUpdate()
     ipcMain.on("checkUpdate", () => {
       checkUpdate()
     })
+
+    keySwitch.watch(function(err, value){
+      if(err){
+        console.error(`GPIO error: ${err}`)
+        return
+      }
+      mainWindow.webContents.send("keySwitch", value)
+    })
+
+    ipcMain.on('backlight', (event, arg) => {
+      backlight.writeSync(arg)
+    })
+
+    mainWindow.show()
   })
 };
 
@@ -66,6 +83,8 @@ app.on('ready', createWindow);
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    backlight.unexport()
+    keySwitch.unexport()
     app.quit();
   }
 });
