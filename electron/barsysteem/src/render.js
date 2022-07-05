@@ -39,6 +39,7 @@ const _othID = 6
 const _radlID = 7
 const _updateCheckInterval = 3600000
 const _screenTimeout = 120000
+
 var users = []
 var activeUser = null
 var unlocked = false
@@ -63,6 +64,16 @@ ipcRenderer.on("updateAvailable", (event,arg) => {
     console.log(arg)
     $(document.getElementById('downloadProgress')).show()
     download(arg, '/home/admin/barsysteem/barsysteemNew.AppImage', (bytes, percent) => waitForDownload(percent))
+})
+
+ipcRenderer.on('keySwitch', (event, arg) =>{
+    if(arg){
+		unlocked = true
+		$(document.getElementById('menu')).show()
+	}else{
+		unlocked = false
+		$(document.getElementById('menu')).hide()
+	}
 })
 
 $(document.getElementById('usersMenuDiv')).hide()
@@ -524,8 +535,10 @@ function registerClick(){
 
 function turnOffScreen(){
     console.log("Screen off")
+    ipcRenderer.send('backlight', 0)
 }
 
 function  turnOnScreen(){
     console.log("Screen on")
+    ipcRenderer.send('backlight', 1)
 }
