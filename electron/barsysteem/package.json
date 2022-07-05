@@ -1,7 +1,7 @@
 {
   "name": "barsysteem",
   "productName": "barsysteem",
-  "version": "1.5.3",
+  "version": "1.6.3",
   "description": "My Electron application description",
   "main": "src/index.js",
   "scripts": {
