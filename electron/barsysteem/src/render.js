@@ -535,10 +535,10 @@ function registerClick(){
 
 function turnOffScreen(){
     console.log("Screen off")
-    ipcRenderer.send('backlight', 0)
+    ipcRenderer.send('backlight', 1)
 }
 
 function  turnOnScreen(){
     console.log("Screen on")
-    ipcRenderer.send('backlight', 1)
+    ipcRenderer.send('backlight', 0)
 }
