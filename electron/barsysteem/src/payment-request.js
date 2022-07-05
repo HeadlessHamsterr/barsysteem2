@@ -1,7 +1,7 @@
 const fs = require('fs')
 const https = require('https')
 const crypto = require('crypto')
-const  path = require('path')
+const path = require('path')
 const uuid = require('uuid')
 
 const requestPayment = (signingKeyPath, tlsKeyPath, tlsCertPath, host, accessToken, merchantCert, keyId, amount, cardAmount, callback) => {
