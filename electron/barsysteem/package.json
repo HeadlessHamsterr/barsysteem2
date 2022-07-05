@@ -1,7 +1,7 @@
 {
   "name": "barsysteem",
   "productName": "barsysteem",
-  "version": "1.5.3",
+  "version": "1.6.1",
   "description": "My Electron application description",
   "main": "src/index.js",
   "scripts": {
@@ -61,6 +61,7 @@
     "mariadb": "^3.0.0",
     "openssl-nodejs": "^1.0.5",
     "uuid": "^8.3.2",
+    "onoff": "^6.0.3",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
