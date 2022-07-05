@@ -515,6 +515,7 @@ function resetUserManagement(){
 }
 
 function update(){
+    $(document.getElementById('rebootPopup')).show()
     exec('/home/admin/barsysteem/update.sh', (error, stdout, stderr) => {
         if(error){
             console.log(error)
