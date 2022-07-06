@@ -386,6 +386,18 @@ function openMainNav(){
 
 function closeMainNav(){
     if(!ignoreInputs){
+        document.getElementById('addUserArrow').style.transform = "rotate(0deg)"
+        document.getElementById('remUserArrow').style.transform = "rotate(0deg)"
+        $('#remUserDiv').slideUp()
+        $('#addUserDiv').slideUp()
+        $(document.getElementById('addUserName')).css('border-color', 'var(--input-border)')
+        $(document.getElementById('addUserSpaces')).css('border-color', 'var(--input-border')
+        $(document.getElementById('remUserName')).css('border-color', 'var(--input-border')
+        document.getElementById('addUserName').value = ""
+        document.getElementById('addUserSpaces').value = ""
+        document.getElementById('addUserErrorSpan').innerHTML = ""
+        document.getElementById('remUserName').value = ""
+        document.getElementById('remUserErrorSpan').value = ""
         $(document.getElementById('mainMenu')).hide()
         returnToHome()
     }
@@ -393,6 +405,14 @@ function closeMainNav(){
 
 function showMenu(type){
     if(!ignoreInputs){
+        $(document.getElementById('addUserName')).css('border-color', 'var(--input-border)')
+        $(document.getElementById('addUserSpaces')).css('border-color', 'var(--input-border')
+        $(document.getElementById('remUserName')).css('border-color', 'var(--input-border')
+        document.getElementById('addUserName').value = ""
+        document.getElementById('addUserSpaces').value = ""
+        document.getElementById('addUserErrorSpan').innerHTML = ""
+        document.getElementById('remUserName').value = ""
+        document.getElementById('remUserErrorSpan').innerHTML = ""
         switch(type){
             case 1:
                 if(document.getElementById("addUserArrow").style.transform == "rotate(0deg)"){
@@ -403,11 +423,6 @@ function showMenu(type){
                 }else{
                     document.getElementById("addUserArrow").style.transform = "rotate(0deg)"
                     $("#addUserDiv").slideUp(300)
-                    $(document.getElementById('addUserName')).css('border-color', 'var(--input-border)');
-                    $(document.getElementById('addUserSpaces')).css('border-color', 'var(--input-border');
-                    document.getElementById('addUserName').value = ""
-                    document.getElementById('addUserSpaces').value = ""
-                    document.getElementById('addUserErrorSpan').innerHTML = "";
                 }
             break;
             case 2:
