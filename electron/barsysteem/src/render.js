@@ -6,6 +6,8 @@ const fs = require('fs');
 const CircleProgress = require('js-circle-progress');
 const path = require('path');
 const { isBuffer } = require('util');
+const https = require('https');
+const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest
 
 require('electron-virtual-keyboard/client')(window, jQuery)
 
@@ -543,7 +545,6 @@ function resetUserManagement(){
     
     $(document.getElementById('remUserName')).css('border-color', 'var(--input-border)');
     document.getElementById('remUserErrorSpan').innerHTML = "";
-
 }
 
 function update(){
@@ -575,4 +576,43 @@ function turnOffScreen(){
 function  turnOnScreen(){
     console.log("Screen on")
     ignoreInputs = false
+}
+
+function updatePromotions(){
+    exec('python3 ' + path.join(__dirname, 'barAanbiedingen.py'))
+}
+
+async function readPromotions(drinkType){
+    const conn = await pool.getConnection()
+    response = await conn.query(`SELECT * FROM offers WHERE type = ${drinkType}`)
+    console.log(response)
+    conn.release()
+
+    let msg = ""
+
+    for(let i = 0; i < response.length; i++){
+        console.log(`${response[i].merk} (${response[i].formaat}) is in de aanbieding bij de ${response[i].winkel} voor €${response[i].prijs} (€${response[i].stukPrijs} per stuk)`)
+        msg += `${response[i].merk} (${response[i].formaat}) is in de aanbieding bij de ${response[i].winkel} voor €${response[i].prijs} (€${response[i].stukPrijs} per stuk)\n`
+    }
+
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+
+    const data = {
+         'chat_id': "-1001617385697",
+         'text': msg
+    }
+
+    let request = new XMLHttpRequest()
+
+    request.onreadystatechange = function(){
+        console.log(this.responseText)
+    }
+
+    request.open("POST", 'https://api.telegram.org/bot5064211270:AAEkuOrlHFpQAna_oEyn-A43OppjEsY6cxE/sendMessage')
+    
+    console.log('Sending: ' + JSON.stringify(data))
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    request.send(JSON.stringify(data))
 }

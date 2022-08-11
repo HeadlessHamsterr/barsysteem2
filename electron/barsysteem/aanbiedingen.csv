@@ -1,0 +1,29 @@
+type,winkel,merk,prijs,formaat,stuk_prijs,korting
+4,Makro,Fanta,5.77,12 pack,0.48,0
+3,Makro,Cola,5.77,12 pack,0.48,0
+1,Makro,Pils,12.09,krat,0.5,0
+2,Makro,Hertog Jan Grand Prestige,8.46,Sixpack,1.41,0
+2,Makro,Hertog Jan Weizener,6.35,Sixpack,1.06,0
+2,Makro,Hertog Jan Tripel,6.64,Sixpack,1.11,0
+2,Makro,Leffe Blond,7.49,Sixpack,1.25,0
+2,Makro,Leffe Tripel,8.22,Sixpack,1.37,0
+2,Makro,Tripel Karmeliet,5.86,Fourpack,1.47,0
+7,Makro,Radler,4.35,Sixpack,0.72,0
+7,Makro,Radler blik,4.13,Sixpack,0.69,0
+2,Albert Heijn,Affligem Belgisch Wit,5.02,Sixpack,0.84,24
+2,Albert Heijn,De Leckere SpringHaver lentebock,1.87,Fles33cl,1.87,24
+2,Albert Heijn,Hertog Jan Weizener,4.87,Sixpack,0.81,24
+2,Albert Heijn,Texels Skuumkoppe,5.24,"Set4x0,30",5.24,25
+2,Dirk,Hertog Jan Grand Prestige,4.49,Sixpack,0.75,25
+2,Dirk,Hertog Jan Karakter,4.87,Sixpack,0.81,24
+2,Dirk,Hertog Jan Tripel,5.54,Sixpack,0.92,25
+2,Dirk,Hertog Jan Weizener,4.57,Sixpack,0.76,24
+2,Hoogvliet,Hertog Jan Grand Prestige,5.24,Sixpack,0.87,25
+2,Hoogvliet,Hertog Jan Karakter,4.93,Sixpack,0.82,24
+2,Hoogvliet,Hertog Jan Lentebock,4.64,Sixpack,0.77,25
+2,Hoogvliet,Hertog Jan Pilsener,12.74,Krat,0.53,25
+2,Hoogvliet,Hertog Jan Tripel,5.54,Sixpack,0.92,25
+2,Hoogvliet,Tripel Karmeliet,5.62,Fourpack,1.41,24
+2,Plus,Affligem Belgisch Wit,5.02,Sixpack,0.84,24
+2,Plus,Affligem Blond,5.54,Sixpack,0.92,25
+2,Plus,Affligem Dubbel,5.54,Sixpack,0.92,25
